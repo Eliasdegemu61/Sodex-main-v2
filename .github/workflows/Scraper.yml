@@ -1,0 +1,32 @@
+name: Sodex Update
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Every 6 hours
+  workflow_dispatch: # Keep this so you can still run it manually
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Run Scraper
+        run: node index.js
+        
+      - name: Commit and Push
+        run: |
+          git config --global user.name "SodexBot"
+          git config --global user.email "bot@sodex.dev"
+          git add sodex_data.json
+          git commit -m "Auto-update: $(date)" || echo "No changes to commit"
+          git push
+          
