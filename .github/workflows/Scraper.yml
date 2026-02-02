@@ -1,14 +1,14 @@
 name: Sodex Update
 on:
   schedule:
-    - cron: '0 */6 * * *' # Every 6 hours
-  workflow_dispatch: # Keep this so you can still run it manually
+    - cron: '0 */6 * * *' # Runs every 6 hours (Midnight, 6AM, Noon, 6PM UTC)
+  workflow_dispatch: # Allows you to click "Run workflow" manually
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write # Essential for the bot to push the JSON file
     steps:
       - uses: actions/checkout@v4
       
